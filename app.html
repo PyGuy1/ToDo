@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#000000">
     <meta charset="utf-8" />
     <link rel="icon" href="/Files/Images/PyGuy.png" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -18,6 +20,16 @@
     <img src="./ToDo.png" style="display: none;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js")
+            .then(reg => console.log("Service Worker registered:", reg.scope))
+            .catch(err => console.log("Service Worker failed:", err));
+        });
+      }
+    </script>
 </body>
 
 </html>
