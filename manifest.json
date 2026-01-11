@@ -1,8 +1,7 @@
 {
   "name": "ToDo - Lists and Tasks",
   "short_name": "ToDo",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "./app.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
