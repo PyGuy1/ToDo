@@ -3,7 +3,7 @@
   "short_name": "ToDo",
   "description": "Plan your day, manage tasks, and get things done efficiently.",
   "start_url": "/app.html",
-  "scope": "/",
+  "scope": "/app.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
