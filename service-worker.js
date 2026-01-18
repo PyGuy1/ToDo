@@ -1,51 +1,59 @@
-const CACHE_NAME = "todo-pwa-v1.5";
+const CACHE_NAME = "todo-pwa-v1.6";
 
 const PRECACHE_ASSETS = [
   "./",
-  "./app.html",
+  "./chat.html",
   "./manifest.json",
-  "./ToDo.png",
-  "./static/css/tailwind.css",
-  "./static/js/main.4a82c912.js"
+  "./icons/icon-192.png",
+  "./icons/icon-512.png"
 ];
 
+// --------------------
 // INSTALL
+// --------------------
 self.addEventListener("install", event => {
-  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_ASSETS))
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(PRECACHE_ASSETS);
+    })
   );
+  self.skipWaiting();
 });
 
+// --------------------
 // ACTIVATE
+// --------------------
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
       )
     )
   );
   self.clients.claim();
 });
 
+// --------------------
 // FETCH
+// --------------------
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   event.respondWith(
     fetch(event.request)
-      .then(res => {
-        if (
-          res.status === 200 &&
-          event.request.url.startsWith(self.location.origin)
-        ) {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, clone)
-          );
+      .then(networkResponse => {
+        const responseClone = networkResponse.clone();
+
+        if (networkResponse.status === 200) {
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
         }
-        return res;
+
+        return networkResponse;
       })
       .catch(() => caches.match(event.request))
   );
