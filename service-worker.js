@@ -2,10 +2,10 @@ const CACHE_NAME = "todo-pwa-v2";
 
 const PRECACHE_ASSETS = [
   "./",
-  "./chat.html",
+  "./app.html",
   "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./ToDo.png",
+  "./ToDo.png"
 ];
 
 // --------------------
