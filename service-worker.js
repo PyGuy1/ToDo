@@ -1,12 +1,12 @@
-const CACHE_NAME = "todo-pwa-v2";
+const CACHE_NAME = "todo-pwa-v3";
 
 const PRECACHE_ASSETS = [
-  "./",
-  "./app.html",
-  "./manifest.json",
-  "./ToDo.png",
-  "./ToDo.png"
+  "/",
+  "/app.html",
+  "/manifest.json",
+  "/ToDo.png"
 ];
+
 
 // --------------------
 // INSTALL
