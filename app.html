@@ -37,6 +37,26 @@ window.addEventListener("beforeinstallprompt", e => {
                 .catch(err => console.error("SW registration failed", err));
         });
     }
+
+        function showToast(msg, iconName = "info") {
+            const toast = document.getElementById('toast');
+            const iconContainer = document.getElementById('toast-icon');
+            const msgContainer = document.getElementById('toast-msg');
+            
+            // Set icon
+            iconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4"></i>`;
+            lucide.createIcons();
+            
+            msgContainer.textContent = msg;
+            
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, 0)';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, -10px)';
+            }, 3000);
+        }
 </script>
 </body>
 
