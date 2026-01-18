@@ -10,6 +10,7 @@
     <meta name="description" content="A clean, intuitive web app that helps you create, organize, and track your daily tasks efficiently, keeping your to-do list simple, focused, and always up to date." />
     <link rel="apple-touch-icon" href="./ToDo.png" />
     <title>ToDo:Lists and Tasks App</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="./static/css/tailwind.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer="defer" src="./static/js/main.4a82c912.js"></script>
@@ -18,9 +19,25 @@
 <body>
     <img src="./ToDo.png" style="display: none;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="toast"
+     class="fixed top-4 left-1/2 -translate-x-1/2 opacity-0 transition-all duration-300 bg-black text-white px-4 py-2 rounded flex items-center gap-2 z-50">
+        <span id="toast-icon"></span>
+        <span id="toast-msg"></span>
+    </div>
+
     <div id="root"></div>
 
     <script>
+
+        function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+        });
+    }
+}
+
     let deferredPrompt;
 
 window.addEventListener("beforeinstallprompt", e => {
