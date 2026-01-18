@@ -1,4 +1,4 @@
-const CACHE_NAME = "todo-pwa-v3";
+const CACHE_NAME = "todo-pwa-v4";
 
 const PRECACHE_ASSETS = [
   "/",
@@ -12,11 +12,11 @@ const PRECACHE_ASSETS = [
 // --------------------
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => 
-      cache.addAll(PRECACHE_ASSETS).catch(err => {
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(PRECACHE_ASSETS).catch(err => {
         console.error("Precache failed:", err);
-      })
-    )
+      });
+    })
   );
   self.skipWaiting();
 });
@@ -43,30 +43,19 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
-  // Navigation requests (page loads)
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      caches.match("/app.html").then(cached =>
-        cached || fetch(event.request)
-      )
-    );
-    return;
-  }
-
-  // Static assets: cache-first
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
+    fetch(event.request)
+      .then(networkResponse => {
+        const responseClone = networkResponse.clone();
 
-      return fetch(event.request).then(response => {
-        if (response.status === 200) {
-          const clone = response.clone();
+        if (networkResponse.status === 200) {
           caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, clone);
+            cache.put(event.request, responseClone);
           });
         }
-        return response;
-      });
-    })
+
+        return networkResponse;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
